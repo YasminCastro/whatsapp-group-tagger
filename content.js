@@ -12,6 +12,10 @@ async function tagAllUsers() {
 
         console.log(`Tagging user: ${user}`);
 
+        if (user.trim().startsWith("+")) {
+          user = user.slice(0, -1);
+        }
+
         chatBox.innerHTML = "";
         chatBox.focus();
 
