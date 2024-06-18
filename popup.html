@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>WhatsApp Group Tagger</title>
+    <style>
+      body {
+        width: 300px;
+        padding: 4px;
+      }
+
+      button {
+        padding: 10px 20px;
+        font-size: 16px;
+        background-color: #4caf50;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        width: 100%;
+      }
+
+      button:hover {
+        background-color: #45a049;
+      }
+
+      img {
+        width: 50px;
+        height: auto;
+      }
+
+      .message {
+        width: 75%;
+      }
+
+      p {
+        margin: 2px;
+      }
+
+      .message-box {
+        display: flex;
+        justify-content: space-between;
+      }
+
+      .container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="message-box">
+        <img src="icons/logo.svg" alt="Logo" />
+        <div class="message">
+          <p>• Antes de continuar, abra o grupo que você deseja marcar.</p>
+          <p>
+            • Depois de clicar no botão, não interaja com a página até que a
+            marcação seja concluída.
+          </p>
+        </div>
+      </div>
+      <button id="tagButton">Marcar todos integrantes</button>
+    </div>
+    <script src="popup.js"></script>
+  </body>
+</html>
