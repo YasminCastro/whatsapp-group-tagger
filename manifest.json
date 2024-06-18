@@ -3,7 +3,7 @@
   "name": "WhatsApp Group Tagger",
   "version": "1.0",
   "description": "Tag all users in a WhatsApp group with a single click.",
-  "permissions": ["activeTab", "scripting"],
+  "permissions": ["activeTab", "scripting", "storage"],
   "background": {
     "service_worker": "background.js"
   },

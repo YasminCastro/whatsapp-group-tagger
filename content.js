@@ -1,7 +1,20 @@
 async function tagAllUsers() {
   try {
+    const currentTime = new Date().getTime();
+    const lastSentTime = await getLastSentTime();
+
+    console.log(`Last sent time: ${lastSentTime}`);
+    console.log(`Current time: ${currentTime}`);
+
+    if (lastSentTime && currentTime - lastSentTime < 2 * 60 * 1000) {
+      alert("Você só pode marcar novamente após 2 minutos.");
+      return;
+    }
+
     const usersFound = await getUserNames();
     await typeUsers(usersFound);
+
+    await setLastSentTime(currentTime);
   } catch (error) {
     console.log("Unable do tag all users from group", error);
   }
@@ -97,4 +110,31 @@ async function typeUsers(usersFound) {
     console.log("Error to type users");
     return;
   }
+}
+
+function getLastSentTime() {
+  return new Promise((resolve) => {
+    chrome.runtime.sendMessage({ action: "getLastSentTime" }, (response) => {
+      if (chrome.runtime.lastError) {
+        console.error("Runtime error:", chrome.runtime.lastError);
+        resolve(null);
+      } else {
+        resolve(response ? response.lastSentTime : null);
+      }
+    });
+  });
+}
+
+function setLastSentTime(time) {
+  return new Promise((resolve) => {
+    chrome.runtime.sendMessage(
+      { action: "setLastSentTime", time: time },
+      () => {
+        if (chrome.runtime.lastError) {
+          console.error("Runtime error:", chrome.runtime.lastError);
+        }
+        resolve();
+      }
+    );
+  });
 }
