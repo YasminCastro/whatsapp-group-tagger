@@ -41,6 +41,7 @@ async function getUserNames() {
           const userNamesText = userSpan.getAttribute("title");
           const userNames = userNamesText
             .split(", ")
+            .filter((name) => name !== "Você")
             .map((name) => removeAccents(name));
 
           return userNames;
@@ -77,25 +78,27 @@ async function typeUsers(usersFound) {
     const chatBox = document.querySelector(
       '[contenteditable="true"][data-tab="10"]'
     );
+    let remainingUsers = usersFound;
 
     if (chatBox) {
       const markedUsers = new Set();
-      for (let user of usersFound) {
-        if (user === "Voce") continue;
+      while (remainingUsers.length > 0) {
+        let user = remainingUsers[0]; // Pegue o primeiro usuário
 
-        // NUMBER NOT SAVED
+        console.log("Current user: " + user);
+
+        // Número não salvo
         if (user.trim().startsWith("+")) {
           user = user.slice(0, -1);
         }
 
+        // Limpar e focar na caixa de chat
         chatBox.innerHTML = "";
         chatBox.focus();
 
         await new Promise((resolve) => setTimeout(resolve, 200));
-
         document.execCommand("insertText", false, `@${user}`);
 
-        // Trying 10 times to get selector
         let personNameElement = null;
         for (let i = 0; i < 10; i++) {
           personNameElement = document.querySelector(
@@ -105,7 +108,6 @@ async function typeUsers(usersFound) {
           await new Promise((resolve) => setTimeout(resolve, 100));
         }
 
-        // Clicking and saving user clicked
         if (personNameElement) {
           personNameElement.click();
           const fullText = personNameElement.textContent.trim();
@@ -126,7 +128,13 @@ async function typeUsers(usersFound) {
         chatBox.dispatchEvent(spaceEvent);
 
         await new Promise((resolve) => setTimeout(resolve, 100));
+
+        // Remova o usuário após processar
+        remainingUsers.shift();
+        console.log("Remaining Users:", remainingUsers);
       }
+
+      console.log(markedUsers);
     }
     return;
   } catch (error) {
