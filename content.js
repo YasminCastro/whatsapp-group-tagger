@@ -145,10 +145,7 @@ async function typeUsers(usersFound) {
 
         // Remova o usuário após processar
         remainingUsers.shift();
-        console.log("Remaining Users:", remainingUsers);
       }
-
-      console.log(markedUsers);
     }
     return;
   } catch (error) {
