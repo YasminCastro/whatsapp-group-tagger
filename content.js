@@ -78,12 +78,13 @@ async function typeUsers(usersFound) {
     const chatBox = document.querySelector(
       '[contenteditable="true"][data-tab="10"]'
     );
-    let remainingUsers = usersFound;
 
     if (chatBox) {
+      let remainingUsers = usersFound;
       const markedUsers = new Set();
+
       while (remainingUsers.length > 0) {
-        let user = remainingUsers[0]; // Pegue o primeiro usuário
+        let user = remainingUsers[0];
 
         console.log("Current user: " + user);
 
@@ -101,9 +102,22 @@ async function typeUsers(usersFound) {
 
         let personNameElement = null;
         for (let i = 0; i < 10; i++) {
-          personNameElement = document.querySelector(
+          const potentialElements = document.querySelectorAll(
             'div[class="x78zum5 xeuugli"]'
           );
+
+          // Percorre todos os elementos potenciais
+          for (let j = 0; j < potentialElements.length; j++) {
+            const element = potentialElements[j];
+            const fullText = element.textContent.trim();
+
+            // Verifica se este nome ainda não foi marcado
+            if (!markedUsers.has(fullText)) {
+              personNameElement = element;
+              break;
+            }
+          }
+
           if (personNameElement) break;
           await new Promise((resolve) => setTimeout(resolve, 100));
         }
