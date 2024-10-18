@@ -39,7 +39,9 @@ async function getUserNames() {
 
         if (userSpan) {
           const userNamesText = userSpan.getAttribute("title");
-          const userNames = userNamesText.split(", ");
+          const userNames = userNamesText
+            .split(", ")
+            .map((name) => removeAccents(name));
 
           return userNames;
         }
@@ -51,6 +53,10 @@ async function getUserNames() {
     console.log("Unable to get users of group", error);
     return [];
   }
+}
+
+function removeAccents(str) {
+  return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 }
 
 async function getCurrentGroupName() {
