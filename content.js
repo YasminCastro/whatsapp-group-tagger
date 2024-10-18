@@ -79,9 +79,11 @@ async function typeUsers(usersFound) {
     );
 
     if (chatBox) {
+      const markedUsers = new Set();
       for (let user of usersFound) {
-        if (user === "Você") continue;
+        if (user === "Voce") continue;
 
+        // NUMBER NOT SAVED
         if (user.trim().startsWith("+")) {
           user = user.slice(0, -1);
         }
@@ -93,15 +95,21 @@ async function typeUsers(usersFound) {
 
         document.execCommand("insertText", false, `@${user}`);
 
-        let personElement = null;
+        // Trying 10 times to get selector
+        let personNameElement = null;
         for (let i = 0; i < 10; i++) {
-          personElement = document.querySelector(".xmo9yow");
-          if (personElement) break;
-          await new Promise((resolve) => setTimeout(resolve, 100)); // Espera antes de tentar novamente
+          personNameElement = document.querySelector(
+            'div[class="x78zum5 xeuugli"]'
+          );
+          if (personNameElement) break;
+          await new Promise((resolve) => setTimeout(resolve, 100));
         }
 
-        if (personElement) {
-          personElement.click();
+        // Clicking and saving user clicked
+        if (personNameElement) {
+          personNameElement.click();
+          const fullText = personNameElement.textContent.trim();
+          markedUsers.add(fullText);
         }
 
         await new Promise((resolve) => setTimeout(resolve, 100));
