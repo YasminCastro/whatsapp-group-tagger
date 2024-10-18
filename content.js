@@ -6,9 +6,9 @@ async function tagAllUsers() {
     const usersFound = await getUserNames();
     await typeUsers(usersFound);
 
-    const currentTime = new Date().getTime();
-    const groupName = await getCurrentGroupName();
-    await setLastSentTime(groupName, currentTime);
+    // const currentTime = new Date().getTime();
+    // const groupName = await getCurrentGroupName();
+    // await setLastSentTime(groupName, currentTime);
   } catch (error) {
     console.log("Unable do tag all users from group", error);
   }
@@ -83,15 +83,19 @@ async function typeUsers(usersFound) {
         chatBox.innerHTML = "";
         chatBox.focus();
 
-        await new Promise((resolve) => setTimeout(resolve, 100));
+        await new Promise((resolve) => setTimeout(resolve, 200));
 
         document.execCommand("insertText", false, `@${user}`);
 
-        await new Promise((resolve) => setTimeout(resolve, 100));
+        let personElement = null;
+        for (let i = 0; i < 10; i++) {
+          personElement = document.querySelector(".xmo9yow");
+          if (personElement) break;
+          await new Promise((resolve) => setTimeout(resolve, 100)); // Espera antes de tentar novamente
+        }
 
-        const ajzlElement = document.querySelector("._ajzl");
-        if (ajzlElement) {
-          ajzlElement.click();
+        if (personElement) {
+          personElement.click();
         }
 
         await new Promise((resolve) => setTimeout(resolve, 100));
